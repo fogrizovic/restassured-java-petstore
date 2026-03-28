@@ -39,11 +39,10 @@ jobs:
 
       - name: Generate Allure report
         run: |
-          curl -o allure.tgz -Ls https://github.com/allure-framework/allure2/releases/download/2.29.1/allure-2.29.1.tgz
-          tar -zxf allure.tgz
+          npm install -g allure-commandline --save-dev
           mkdir -p allure-history
           [ -d gh-pages/history ] && cp -r gh-pages/history target/allure-results/history
-          ./allure-2.29.1/bin/allure generate target/allure-results --clean -o allure-history
+          allure generate target/allure-results --clean -o allure-history
 
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
