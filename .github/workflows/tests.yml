@@ -38,11 +38,12 @@ jobs:
           path: gh-pages
 
       - name: Generate Allure report
-        uses: simple-elf/allure-report-action@v1.9
-        with:
-          allure_results: target/allure-results
-          allure_history: allure-history
-          keep_reports: 20
+        run: |
+          curl -o allure.tgz -Ls https://github.com/allure-framework/allure2/releases/download/2.29.1/allure-2.29.1.tgz
+          tar -zxf allure.tgz
+          mkdir -p allure-history
+          [ -d gh-pages/history ] && cp -r gh-pages/history target/allure-results/history
+          ./allure-2.29.1/bin/allure generate target/allure-results --clean -o allure-history
 
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
