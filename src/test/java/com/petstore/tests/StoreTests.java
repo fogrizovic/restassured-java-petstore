@@ -1,14 +1,14 @@
 package com.petstore.tests;
 
 import com.petstore.utils.BaseTest;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 public class StoreTests extends BaseTest {
 
-    private static int orderId;
+    private static long orderId;
 
     @Test(description = "Should get store inventory")
     public void shouldGetInventory() {
@@ -39,7 +39,7 @@ public class StoreTests extends BaseTest {
             .statusCode(200)
             .body("status", equalTo("placed"))
             .body("complete", equalTo(true))
-            .extract().path("id");
+            .extract().jsonPath().getLong("id");
     }
 
     @Test(description = "Should get order by ID", dependsOnMethods = "shouldPlaceOrder")
@@ -59,5 +59,14 @@ public class StoreTests extends BaseTest {
             .delete("/store/order/" + orderId)
         .then()
             .statusCode(200);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup() {
+        if (orderId != 0) {
+            given()
+            .when()
+                .delete("/store/order/" + orderId);
+        }
     }
 }

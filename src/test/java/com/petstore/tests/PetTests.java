@@ -1,9 +1,9 @@
 package com.petstore.tests;
 
 import com.petstore.utils.BaseTest;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 public class PetTests extends BaseTest {
@@ -85,8 +85,15 @@ public class PetTests extends BaseTest {
     public void shouldReturn404ForNonExistingPet() {
         given()
         .when()
-            .get("/pet/000000999")
+            .get("/pet/999999999999999")
         .then()
             .statusCode(404);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup() {
+        given()
+        .when()
+            .delete("/pet/" + PET_ID);
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Petstore API Suite">
+<suite name="Petstore API Suite" parallel="false">
     <test name="Pet Tests">
         <classes>
             <class name="com.petstore.tests.PetTests"/>
@@ -9,6 +9,11 @@
     <test name="Store Tests">
         <classes>
             <class name="com.petstore.tests.StoreTests"/>
+        </classes>
+    </test>
+    <test name="User Tests">
+        <classes>
+            <class name="com.petstore.tests.UserTests"/>
         </classes>
     </test>
 </suite>
